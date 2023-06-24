@@ -1,0 +1,23 @@
+version: '3.6'
+services:
+  graphql:
+    build: 
+      dockerfile: ../Dockerfile
+      context: ./graphql-pro
+    ports:
+      - 4000:4000
+    environment:
+      - PORT=4000
+
+  rms:
+    build: 
+      context: ./rms
+      dockerfile: ../Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - graphql
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - APOLLO_URI=graphql:4000
